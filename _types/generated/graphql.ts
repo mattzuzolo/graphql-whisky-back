@@ -14,6 +14,7 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   whisky?: Maybe<Whisky>;
+  whiskys: Array<Maybe<Whisky>>;
   distiller?: Maybe<Distiller>;
   distillers: Array<Maybe<Distiller>>;
 };
@@ -36,7 +37,10 @@ export type Mutation = {
 
 
 export type MutationCreateWhiskyArgs = {
+  distillerId: Scalars['String'];
   name: Scalars['String'];
+  blended: Scalars['Boolean'];
+  age?: Maybe<Scalars['Int']>;
 };
 
 
@@ -50,6 +54,7 @@ export type Whisky = {
   name: Scalars['String'];
   age?: Maybe<Scalars['Int']>;
   blended: Scalars['Boolean'];
+  distiller?: Maybe<Distiller>;
 };
 
 export type Distiller = {
@@ -141,9 +146,9 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Mutation: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
-  Whisky: ResolverTypeWrapper<./_types/Whisky.ts>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
+  Whisky: ResolverTypeWrapper<./_types/Whisky.ts>;
   Distiller: ResolverTypeWrapper<./_types/Distiller.ts>;
 };
 
@@ -153,20 +158,21 @@ export type ResolversParentTypes = {
   ID: Scalars['ID'];
   Mutation: {};
   String: Scalars['String'];
-  Whisky: ./_types/Whisky.ts;
-  Int: Scalars['Int'];
   Boolean: Scalars['Boolean'];
+  Int: Scalars['Int'];
+  Whisky: ./_types/Whisky.ts;
   Distiller: ./_types/Distiller.ts;
 };
 
 export type QueryResolvers<ContextType = ./_types/Context.ts, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   whisky?: Resolver<Maybe<ResolversTypes['Whisky']>, ParentType, ContextType, RequireFields<QueryWhiskyArgs, 'id'>>;
+  whiskys?: Resolver<Array<Maybe<ResolversTypes['Whisky']>>, ParentType, ContextType>;
   distiller?: Resolver<Maybe<ResolversTypes['Distiller']>, ParentType, ContextType, RequireFields<QueryDistillerArgs, 'id'>>;
   distillers?: Resolver<Array<Maybe<ResolversTypes['Distiller']>>, ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = ./_types/Context.ts, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createWhisky?: Resolver<Maybe<ResolversTypes['Whisky']>, ParentType, ContextType, RequireFields<MutationCreateWhiskyArgs, 'name'>>;
+  createWhisky?: Resolver<Maybe<ResolversTypes['Whisky']>, ParentType, ContextType, RequireFields<MutationCreateWhiskyArgs, 'distillerId' | 'name' | 'blended'>>;
   createDistiller?: Resolver<Maybe<ResolversTypes['Distiller']>, ParentType, ContextType, RequireFields<MutationCreateDistillerArgs, 'name'>>;
 };
 
@@ -175,6 +181,7 @@ export type WhiskyResolvers<ContextType = ./_types/Context.ts, ParentType extend
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   age?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   blended?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  distiller?: Resolver<Maybe<ResolversTypes['Distiller']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

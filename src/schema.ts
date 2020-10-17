@@ -3,13 +3,18 @@ import { gql } from 'apollo-server';
 const typeDefs = gql`
   type Query {
     whisky(id: ID!): Whisky
-
+    whiskys: [Whisky]! # Use proper grammar for plural? Whiskys vs Whiskies
     distiller(id: ID!): Distiller
     distillers: [Distiller]!
   }
 
   type Mutation {
-    createWhisky(name: String!): Whisky
+    createWhisky(
+      distillerId: String!
+      name: String!
+      blended: Boolean!
+      age: Int
+    ): Whisky
     createDistiller(name: String!): Distiller
   }
 
@@ -20,6 +25,7 @@ const typeDefs = gql`
     blended: Boolean!
 
     #Relationships
+    distiller: Distiller
   }
 
   type Distiller {

@@ -1,6 +1,9 @@
 import Context from '../../_types/Context';
 
-import { QueryDistillerArgs } from '../../_types/generated/graphql';
+import {
+  QueryDistillerArgs,
+  QueryWhiskyArgs,
+} from '../../_types/generated/graphql';
 
 const Query = {
   distiller: async (
@@ -17,13 +20,38 @@ const Query = {
   },
   distillers: async (
     _parent: void,
-    _args: QueryDistillerArgs,
+    _args: void,
     { db }: Context
   ): Promise<any[]> => {
     console.log('SEARCHING FOR ALL DISTILLERS');
     const distllers = db.distiller.findMany({});
     console.log('FOUND DISTILLERS:', distllers);
     return distllers;
+  },
+  whisky: async (
+    _parent: void,
+    { id }: QueryWhiskyArgs,
+    { db }: Context
+  ): Promise<any> => {
+    console.log('SEARCHING FOR WHISKY WITH ID:', id);
+    const foundWhisky = await db.whisky.findOne({
+      where: { id },
+      include: {
+        distiller: true,
+      },
+    });
+    console.log('FOUND WHISKY:', foundWhisky);
+    return foundWhisky;
+  },
+  whiskys: async (
+    _parent: void,
+    _args: void,
+    { db }: Context
+  ): Promise<any[]> => {
+    console.log('SEARCHING FOR ALL WHISKYS');
+    const whiskys = db.whisky.findMany({});
+    console.log('FOUND WHISKYS:', whiskys);
+    return whiskys;
   },
 };
 

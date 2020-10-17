@@ -5,7 +5,9 @@ generates:
     config:
       contextType: './_types/Context.ts'
       mappers:
+        Country: './_types/Country.ts'
         Distiller: './_types/Distiller.ts'
+        Region: './_types/Region.ts'
         Whisky: './_types/Whisky.ts'
     plugins:
       - 'typescript'

@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -13,7 +13,6 @@ generator client {
 model Whisky { // The Balvenie 12, Lagavulin 16, Angel's Envy
   id String @id @default(uuid())
   createdAt  DateTime  @default(now())
-  
   name String
   blended Boolean
   age Int? // Maybe default to zero?
@@ -26,7 +25,6 @@ model Whisky { // The Balvenie 12, Lagavulin 16, Angel's Envy
 model Distiller { // The Balvenie, Lagavulin, Buffalo Trace
   id String @id @default(uuid())
   createdAt  DateTime  @default(now())
-
   name String
   
   // Relationship
@@ -38,14 +36,12 @@ model Region { // Islay, Kentucky
   createdAt  DateTime  @default(now())
 
   name String
-  shortName String? // Optional because we assign "name" to "shortName" if none is provided
+  shortName String?
 
 
   // Relationship
   distillers Distiller[]
   
-  // THIS IS HOW YOU GET THE INCLUDE FIELD WHEN "EAGAR LOADING"
-  // https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/field-selection#include
   countryId  String
   country    Country  @relation(fields: [countryId], references: [id])
 }

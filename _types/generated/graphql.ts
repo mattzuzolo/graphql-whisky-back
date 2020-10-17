@@ -15,6 +15,7 @@ export type Query = {
   __typename?: 'Query';
   whisky?: Maybe<Whisky>;
   distiller?: Maybe<Distiller>;
+  distillers: Array<Maybe<Distiller>>;
 };
 
 
@@ -161,6 +162,7 @@ export type ResolversParentTypes = {
 export type QueryResolvers<ContextType = ./_types/Context.ts, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   whisky?: Resolver<Maybe<ResolversTypes['Whisky']>, ParentType, ContextType, RequireFields<QueryWhiskyArgs, 'id'>>;
   distiller?: Resolver<Maybe<ResolversTypes['Distiller']>, ParentType, ContextType, RequireFields<QueryDistillerArgs, 'id'>>;
+  distillers?: Resolver<Array<Maybe<ResolversTypes['Distiller']>>, ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = ./_types/Context.ts, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {

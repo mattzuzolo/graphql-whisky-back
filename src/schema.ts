@@ -3,7 +3,9 @@ import { gql } from 'apollo-server';
 const typeDefs = gql`
   type Query {
     whisky(id: ID!): Whisky
+
     distiller(id: ID!): Distiller
+    distillers: [Distiller]!
   }
 
   type Mutation {

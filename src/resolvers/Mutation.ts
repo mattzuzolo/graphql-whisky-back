@@ -1,9 +1,11 @@
 import Context from '../../_types/Context';
 
+import { MutationCreateDistillerArgs } from '../../_types/generated/graphql';
+
 const Mutation = {
   createDistiller: async (
     _parent: void,
-    { name }: { name: string },
+    { name }: MutationCreateDistillerArgs,
     { db }: Context
   ): Promise<any> => {
     console.log(`ATTEMPING TO CREATE DISTILLER ${name}...`);

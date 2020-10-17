@@ -7,15 +7,15 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createWhisky(name: String): Whisky
-    createDistiller(name: String): Distiller
+    createWhisky(name: String!): Whisky
+    createDistiller(name: String!): Distiller
   }
 
   type Whisky {
     id: ID!
     name: String!
     age: Int
-    blended: Boolean
+    blended: Boolean!
 
     #Relationships
   }

@@ -1,0 +1,15 @@
+overwrite: true
+schema: 'src/schema.ts'
+generates:
+  ./_types/generated/graphql.ts:
+    config:
+      contextType: './_types/Context.ts'
+      mappers:
+        Distiller: './_types/Distiller.ts'
+        Whisky: './_types/Whisky.ts'
+    plugins:
+      - 'typescript'
+      - 'typescript-resolvers'
+  ./graphql.schema.json:
+    plugins:
+      - 'introspection'

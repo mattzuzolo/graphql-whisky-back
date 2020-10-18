@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -31,12 +31,6 @@ model Distiller { // The Balvenie, Lagavulin, Buffalo Trace
   
   // Relationship
   whiskys Whisky[]
-
-  countryId  String
-  country    Country  @relation(fields: [countryId], references: [id])
-
-  regionId  String?
-  region    Region?  @relation(fields: [regionId], references: [id])
 }
 
 model Region { // Islay, Kentucky

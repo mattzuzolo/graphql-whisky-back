@@ -3,10 +3,14 @@ import { gql } from 'apollo-server';
 const typeDefs = gql`
   type Query {
     # Find one
+    # By id
     whisky(id: ID!): Whisky
     distiller(id: ID!): Distiller
     region(id: ID!): Region
     country(id: ID!): Country
+    # By name
+    countryByAlias(alias: String!): Country
+    regionByAlias(alias: String!): Region
 
     # Find many
     whiskys: [Whisky]! # Use proper grammar for plural? Whiskys vs Whiskies
@@ -16,7 +20,11 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createDistiller(name: String!): Distiller
+    createDistiller(
+      countryId: String!
+      name: String!
+      regionId: String
+    ): Distiller
     createWhisky(
       distillerId: String!
       name: String!
@@ -24,8 +32,13 @@ const typeDefs = gql`
       age: Int
     ): Whisky
 
-    createCountry(name: String!, shortName: String): Country
-    createRegion(countryId: String!, name: String!, shortName: String): Region
+    createCountry(alias: String!, name: String!, shortName: String): Country
+    createRegion(
+      countryId: String!
+      alias: String!
+      name: String!
+      shortName: String
+    ): Region
   }
 
   type Whisky {
@@ -45,6 +58,10 @@ const typeDefs = gql`
     name: String!
 
     # Relationships
+    # Belongs to
+    region: Region
+    country: Country!
+
     # Has many
     whiskys: [Whisky]
   }
@@ -54,6 +71,7 @@ const typeDefs = gql`
 
     name: String!
     shortName: String!
+    alias: String!
 
     # Relationships
     # Belongs to
@@ -68,6 +86,7 @@ const typeDefs = gql`
 
     name: String!
     shortName: String!
+    alias: String!
 
     # Relationships
     # Has many

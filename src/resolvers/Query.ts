@@ -4,7 +4,9 @@ import {
   QueryDistillerArgs,
   QueryWhiskyArgs,
   QueryCountryArgs,
+  QueryCountryByAliasArgs,
   QueryRegionArgs,
+  QueryRegionByAliasArgs,
 } from '../../_types/generated/graphql';
 
 const Query = {
@@ -17,7 +19,12 @@ const Query = {
     const foundDistiller = await db.distiller.findOne({
       where: { id },
       include: {
-        whiskys: true,
+        whiskys: {
+          take: 5, // limit to five extra whiskies
+        },
+        // whiskys: true,
+        region: true,
+        country: true,
       },
     });
     console.log('FOUND DISTILLER WITH ID:', foundDistiller);
@@ -46,7 +53,16 @@ const Query = {
     const foundWhisky = await db.whisky.findOne({
       where: { id },
       include: {
-        distiller: true,
+        distiller: {
+          // Get 3 whiskys to recommend user more
+          include: {
+            whiskys: {
+              take: 3,
+            },
+            country: true,
+            region: true,
+          },
+        },
       },
     });
     console.log('FOUND WHISKY:', foundWhisky);
@@ -71,7 +87,7 @@ const Query = {
     { id }: QueryCountryArgs,
     { db }: Context
   ): Promise<any> => {
-    console.log('SEARCHING FOR WHISKY WITH ID:', id);
+    console.log('SEARCHING FOR COUNTRY WITH ID:', id);
     const foundCountry = await db.country.findOne({
       where: { id },
       include: {
@@ -79,9 +95,37 @@ const Query = {
         distillers: true,
       },
     });
-    console.log('FOUND WHISKY:', foundCountry);
+    console.log('\n\n\nLOL WRONG QUERY!!!\n\n\n');
+    console.log('FOUND COUNTRY:', foundCountry);
     return foundCountry;
   },
+  countryByAlias: async (
+    _parent: void,
+    { alias }: QueryCountryByAliasArgs,
+    { db }: Context
+  ): Promise<any> => {
+    console.log('SEARCHING FOR COUNTRY BY ALIAS:', alias);
+    // WTF: findFirst is not case sensitive (according to Prisma slack)
+    const foundCountry = await db.country.findFirst({
+      where: {
+        alias: {
+          equals: alias,
+          mode: 'insensitive', // url so allow any case
+        },
+      },
+      include: {
+        regions: true,
+        distillers: {
+          include: {
+            whiskys: true,
+          },
+        },
+      },
+    });
+    console.log('FOUND COUNTRY:', foundCountry);
+    return foundCountry;
+  },
+
   countries: async (
     _parent: void,
     _args: void,
@@ -110,6 +154,27 @@ const Query = {
       },
     });
     console.log('FOUND DISTILLER WITH ID:', foundRegion);
+    return foundRegion;
+  },
+  regionByAlias: async (
+    _parent: void,
+    { alias }: QueryRegionByAliasArgs,
+    { db }: Context
+  ): Promise<any> => {
+    console.log('SEARCHING FOR COUNTRY BY ALIAS:', alias);
+    // WTF: findFirst is not case sensitive (according to Prisma slack)
+    const foundRegion = await db.region.findFirst({
+      where: {
+        alias: {
+          equals: alias,
+          mode: 'insensitive',
+        },
+      },
+      include: {
+        country: true,
+      },
+    });
+    console.log('FOUND COUNTRY:', foundRegion);
     return foundRegion;
   },
   regions: async (

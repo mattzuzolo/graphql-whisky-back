@@ -19,11 +19,11 @@ model Whisky { // The Balvenie 12, Lagavulin 16, Angel's Envy
   age Int? // Maybe default to zero?
 
   // Relationship
-  distillerId  String
-  distiller    Distiller  @relation(fields: [distillerId], references: [id])
+  producerId  String
+  producer    Producer  @relation(fields: [producerId], references: [id])
 }
 
-model Distiller { // The Balvenie, Lagavulin, Buffalo Trace
+model Producer { // The Balvenie, Lagavulin, Buffalo Trace
   id String @id @default(uuid())
   createdAt  DateTime  @default(now())
 
@@ -31,6 +31,12 @@ model Distiller { // The Balvenie, Lagavulin, Buffalo Trace
   
   // Relationship
   whiskys Whisky[]
+
+  countryId  String
+  country    Country  @relation(fields: [countryId], references: [id])
+
+  regionId  String?
+  region    Region?  @relation(fields: [regionId], references: [id])
 }
 
 model Region { // Islay, Kentucky
@@ -39,11 +45,11 @@ model Region { // Islay, Kentucky
 
   name String @unique
   shortName String? @unique // Optional because we assign "name" to "shortName" if none is provided
-  alias String? @unique // for urls
+  alias String @unique // for urls
 
 
   // Relationship
-  distillers Distiller[]
+  producers Producer[]
   
   // THIS IS HOW YOU GET THE INCLUDE FIELD WHEN "EAGAR LOADING"
   // https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/field-selection#include
@@ -57,9 +63,9 @@ model Country { // Scotland, Ireland, USA
 
   name String @unique
   shortName String? @unique
-  alias String? @unique // for urls
+  alias String @unique // for urls
 
   // Relationship
-  distillers Distiller[]
+  producers Producer[]
   regions Region[]
 }

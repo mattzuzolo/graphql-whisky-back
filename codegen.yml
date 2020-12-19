@@ -6,7 +6,7 @@ generates:
       contextType: './_types/Context.ts'
       mappers:
         Country: './_types/Country.ts'
-        Distiller: './_types/Distiller.ts'
+        Producer: './_types/Producer.ts'
         Region: './_types/Region.ts'
         Whisky: './_types/Whisky.ts'
     plugins:

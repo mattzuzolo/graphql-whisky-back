@@ -2,52 +2,69 @@ import Context from '../../_types/Context';
 
 import {
   MutationCreateCountryArgs,
-  MutationCreateDistillerArgs,
+  MutationCreateProducerArgs,
   MutationCreateRegionArgs,
   MutationCreateWhiskyArgs,
 } from '../../_types/generated/graphql';
 3;
 const Mutation = {
-  createDistiller: async (
+  createProducer: async (
     _parent: void,
-    { countryId, name, regionId }: MutationCreateDistillerArgs,
+    { countryId, name, regionId }: MutationCreateProducerArgs,
     { db }: Context
   ): Promise<any> => {
-    console.log(`ATTEMPING TO CREATE DISTILLER ${name}...`);
-    const distiller = await db.distiller.create({
-      data: {
-        name,
-        country: {
-          connect: {
-            id: countryId,
+    console.log(`ATTEMPING TO CREATE PRODUCER ${name}...`);
+
+    // TODO: simplify this
+    let producer;
+    if (!regionId) {
+      producer = await db.producer.create({
+        data: {
+          name,
+          country: {
+            connect: {
+              id: countryId,
+            },
           },
         },
-        region: {
-          connect: {
-            id: regionId as string | undefined, // TODO: find a better way to handle null here
+      });
+    } else {
+      producer = await db.producer.create({
+        data: {
+          name,
+          country: {
+            connect: {
+              id: countryId,
+            },
+          },
+          region: {
+            connect: {
+              id: regionId as string | undefined, // TODO: find a better way to handle null here
+            },
           },
         },
-      },
-    });
-    console.log('CREATED DISTILLER:', distiller);
-    return distiller;
+      });
+    }
+
+    console.log('CREATED PRODUCER:', producer);
+    return producer;
   },
   createWhisky: async (
     _parent: void,
-    { distillerId, name, blended, age }: MutationCreateWhiskyArgs,
+    { producerId, name, blended, age }: MutationCreateWhiskyArgs,
     { db }: Context
   ): Promise<any> => {
     console.log(
-      `ATTEMPING TO CREATE WHISKY ${name} that belongs to Distiller ID: ${distillerId}`
+      `ATTEMPING TO CREATE WHISKY ${name} that belongs to Producer ID: ${producerId}`
     );
     const whisky = await db.whisky.create({
       data: {
         name,
         blended,
         age,
-        distiller: {
+        producer: {
           connect: {
-            id: distillerId,
+            id: producerId,
           },
         },
       },

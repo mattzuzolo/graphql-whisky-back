@@ -5,28 +5,29 @@ const typeDefs = gql`
     # Find one
     # By id
     whisky(id: ID!): Whisky
-    distiller(id: ID!): Distiller
+    producer(id: ID!): Producer
     region(id: ID!): Region
     country(id: ID!): Country
-    # By name
+
+    # By alias
     countryByAlias(alias: String!): Country
     regionByAlias(alias: String!): Region
 
     # Find many
     whiskys: [Whisky]! # Use proper grammar for plural? Whiskys vs Whiskies
-    distillers: [Distiller]!
+    producers: [Producer]!
     countries: [Country]!
     regions: [Region]!
   }
 
   type Mutation {
-    createDistiller(
+    createProducer(
       countryId: String!
       name: String!
       regionId: String
-    ): Distiller
+    ): Producer
     createWhisky(
-      distillerId: String!
+      producerId: String!
       name: String!
       blended: Boolean!
       age: Int
@@ -50,10 +51,10 @@ const typeDefs = gql`
 
     #Relationships
     # Belongs to
-    distiller: Distiller!
+    producer: Producer!
   }
 
-  type Distiller {
+  type Producer {
     id: ID!
     name: String!
 
@@ -78,7 +79,7 @@ const typeDefs = gql`
     country: Country!
 
     # Has many
-    distillers: [Distiller]!
+    producers: [Producer]!
   }
 
   type Country {
@@ -90,7 +91,7 @@ const typeDefs = gql`
 
     # Relationships
     # Has many
-    distillers: [Distiller]!
+    producers: [Producer]!
     regions: [Region]!
   }
 `;

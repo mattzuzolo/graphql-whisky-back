@@ -1,6 +1,6 @@
 import Whisky from './Whisky';
 
-type Distiller = {
+type Producer = {
   id: string;
   createdAt: string;
   name: string;
@@ -9,4 +9,4 @@ type Distiller = {
   whiskys: Whisky[];
 };
 
-export default Distiller;
+export default Producer;

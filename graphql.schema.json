@@ -42,7 +42,7 @@
             "deprecationReason": null
           },
           {
-            "name": "distiller",
+            "name": "producer",
             "description": null,
             "args": [
               {
@@ -62,7 +62,7 @@
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "Distiller",
+              "name": "Producer",
               "ofType": null
             },
             "isDeprecated": false,
@@ -197,7 +197,7 @@
             "deprecationReason": null
           },
           {
-            "name": "distillers",
+            "name": "producers",
             "description": null,
             "args": [],
             "type": {
@@ -208,7 +208,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "Distiller",
+                  "name": "Producer",
                   "ofType": null
                 }
               }
@@ -288,7 +288,7 @@
         "description": null,
         "fields": [
           {
-            "name": "createDistiller",
+            "name": "createProducer",
             "description": null,
             "args": [
               {
@@ -332,7 +332,7 @@
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "Distiller",
+              "name": "Producer",
               "ofType": null
             },
             "isDeprecated": false,
@@ -343,7 +343,7 @@
             "description": null,
             "args": [
               {
-                "name": "distillerId",
+                "name": "producerId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -611,7 +611,7 @@
             "deprecationReason": null
           },
           {
-            "name": "distiller",
+            "name": "producer",
             "description": null,
             "args": [],
             "type": {
@@ -619,7 +619,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "Distiller",
+                "name": "Producer",
                 "ofType": null
               }
             },
@@ -634,7 +634,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "Distiller",
+        "name": "Producer",
         "description": null,
         "fields": [
           {
@@ -805,7 +805,7 @@
             "deprecationReason": null
           },
           {
-            "name": "distillers",
+            "name": "producers",
             "description": null,
             "args": [],
             "type": {
@@ -816,7 +816,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "Distiller",
+                  "name": "Producer",
                   "ofType": null
                 }
               }
@@ -900,7 +900,7 @@
             "deprecationReason": null
           },
           {
-            "name": "distillers",
+            "name": "producers",
             "description": null,
             "args": [],
             "type": {
@@ -911,7 +911,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "Distiller",
+                  "name": "Producer",
                   "ofType": null
                 }
               }

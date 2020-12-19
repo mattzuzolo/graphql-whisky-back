@@ -1,5 +1,4 @@
-import Country from './Country';
-import Distiller from './Distiller';
+import Producer from './Producer';
 
 type Region = {
   id: string;
@@ -8,7 +7,7 @@ type Region = {
   shortName: string;
 
   // Relationships
-  distillers: Distiller[];
+  producers: Producer[];
 };
 
 export default Region;

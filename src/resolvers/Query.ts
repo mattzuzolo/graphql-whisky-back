@@ -1,7 +1,7 @@
 import Context from '../../_types/Context';
 
 import {
-  QueryDistillerArgs,
+  QueryProducerArgs,
   QueryWhiskyArgs,
   QueryCountryArgs,
   QueryCountryByAliasArgs,
@@ -10,13 +10,13 @@ import {
 } from '../../_types/generated/graphql';
 
 const Query = {
-  distiller: async (
+  producer: async (
     _parent: void,
-    { id }: QueryDistillerArgs,
+    { id }: QueryProducerArgs,
     { db }: Context
   ): Promise<any> => {
     console.log('SEARCHING FOR DISITLLER WITH ID: ', id);
-    const foundDistiller = await db.distiller.findOne({
+    const foundProducer = await db.producer.findOne({
       where: { id },
       include: {
         whiskys: {
@@ -27,21 +27,23 @@ const Query = {
         country: true,
       },
     });
-    console.log('FOUND DISTILLER WITH ID:', foundDistiller);
-    return foundDistiller;
+    console.log('FOUND PRODUCER WITH ID:', foundProducer);
+    return foundProducer;
   },
-  distillers: async (
+  producers: async (
     _parent: void,
     _args: void,
     { db }: Context
   ): Promise<any[]> => {
-    console.log('SEARCHING FOR ALL DISTILLERS');
-    const distllers = await db.distiller.findMany({
+    console.log('SEARCHING FOR ALL PRODUCERS');
+    const distllers = await db.producer.findMany({
       include: {
         whiskys: true,
+        region: true,
+        country: true,
       },
     });
-    console.log('FOUND DISTILLERS:', distllers);
+    console.log('FOUND PRODUCERS:', distllers);
     return distllers;
   },
   whisky: async (
@@ -53,7 +55,7 @@ const Query = {
     const foundWhisky = await db.whisky.findOne({
       where: { id },
       include: {
-        distiller: {
+        producer: {
           // Get 3 whiskys to recommend user more
           include: {
             whiskys: {
@@ -76,7 +78,7 @@ const Query = {
     console.log('SEARCHING FOR ALL WHISKYS');
     const whiskys = await db.whisky.findMany({
       include: {
-        distiller: true,
+        producer: true,
       },
     });
     console.log('FOUND WHISKYS:', whiskys);
@@ -92,7 +94,7 @@ const Query = {
       where: { id },
       include: {
         regions: true,
-        distillers: true,
+        producers: true,
       },
     });
     console.log('\n\n\nLOL WRONG QUERY!!!\n\n\n');
@@ -115,11 +117,11 @@ const Query = {
       },
       include: {
         regions: true,
-        distillers: {
+        producers: {
           include: {
             whiskys: {
               include: {
-                distiller: true,
+                producer: true,
               },
             },
             region: true,
@@ -139,7 +141,12 @@ const Query = {
     console.log('SEARCHING FOR ALL COUNTRIES');
     const countries = await db.country.findMany({
       include: {
-        regions: true,
+        regions: {
+          include: {
+            producers: true,
+          },
+        },
+        producers: true,
       },
     });
     console.log('FOUND COUNTRIES:', countries);
@@ -155,10 +162,10 @@ const Query = {
       where: { id },
       include: {
         country: true,
-        distillers: true,
+        producers: true,
       },
     });
-    console.log('FOUND DISTILLER WITH ID:', foundRegion);
+    console.log('FOUND PRODUCER WITH ID:', foundRegion);
     return foundRegion;
   },
   regionByAlias: async (
@@ -177,11 +184,11 @@ const Query = {
       },
       include: {
         country: true,
-        distillers: {
+        producers: {
           include: {
             whiskys: {
               include: {
-                distiller: true,
+                producer: true,
               },
             },
           },

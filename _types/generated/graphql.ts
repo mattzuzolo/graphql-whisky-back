@@ -14,13 +14,13 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   whisky?: Maybe<Whisky>;
-  distiller?: Maybe<Distiller>;
+  producer?: Maybe<Producer>;
   region?: Maybe<Region>;
   country?: Maybe<Country>;
   countryByAlias?: Maybe<Country>;
   regionByAlias?: Maybe<Region>;
   whiskys: Array<Maybe<Whisky>>;
-  distillers: Array<Maybe<Distiller>>;
+  producers: Array<Maybe<Producer>>;
   countries: Array<Maybe<Country>>;
   regions: Array<Maybe<Region>>;
 };
@@ -31,7 +31,7 @@ export type QueryWhiskyArgs = {
 };
 
 
-export type QueryDistillerArgs = {
+export type QueryProducerArgs = {
   id: Scalars['ID'];
 };
 
@@ -57,14 +57,14 @@ export type QueryRegionByAliasArgs = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createDistiller?: Maybe<Distiller>;
+  createProducer?: Maybe<Producer>;
   createWhisky?: Maybe<Whisky>;
   createCountry?: Maybe<Country>;
   createRegion?: Maybe<Region>;
 };
 
 
-export type MutationCreateDistillerArgs = {
+export type MutationCreateProducerArgs = {
   countryId: Scalars['String'];
   name: Scalars['String'];
   regionId?: Maybe<Scalars['String']>;
@@ -72,7 +72,7 @@ export type MutationCreateDistillerArgs = {
 
 
 export type MutationCreateWhiskyArgs = {
-  distillerId: Scalars['String'];
+  producerId: Scalars['String'];
   name: Scalars['String'];
   blended: Scalars['Boolean'];
   age?: Maybe<Scalars['Int']>;
@@ -99,11 +99,11 @@ export type Whisky = {
   name: Scalars['String'];
   blended: Scalars['Boolean'];
   age?: Maybe<Scalars['Int']>;
-  distiller: Distiller;
+  producer: Producer;
 };
 
-export type Distiller = {
-  __typename?: 'Distiller';
+export type Producer = {
+  __typename?: 'Producer';
   id: Scalars['ID'];
   name: Scalars['String'];
   region?: Maybe<Region>;
@@ -118,7 +118,7 @@ export type Region = {
   shortName: Scalars['String'];
   alias: Scalars['String'];
   country: Country;
-  distillers: Array<Maybe<Distiller>>;
+  producers: Array<Maybe<Producer>>;
 };
 
 export type Country = {
@@ -127,7 +127,7 @@ export type Country = {
   name: Scalars['String'];
   shortName: Scalars['String'];
   alias: Scalars['String'];
-  distillers: Array<Maybe<Distiller>>;
+  producers: Array<Maybe<Producer>>;
   regions: Array<Maybe<Region>>;
 };
 
@@ -216,7 +216,7 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Whisky: ResolverTypeWrapper<./_types/Whisky.ts>;
-  Distiller: ResolverTypeWrapper<./_types/Distiller.ts>;
+  Producer: ResolverTypeWrapper<./_types/Producer.ts>;
   Region: ResolverTypeWrapper<./_types/Region.ts>;
   Country: ResolverTypeWrapper<./_types/Country.ts>;
 };
@@ -230,27 +230,27 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   Int: Scalars['Int'];
   Whisky: ./_types/Whisky.ts;
-  Distiller: ./_types/Distiller.ts;
+  Producer: ./_types/Producer.ts;
   Region: ./_types/Region.ts;
   Country: ./_types/Country.ts;
 };
 
 export type QueryResolvers<ContextType = ./_types/Context.ts, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   whisky?: Resolver<Maybe<ResolversTypes['Whisky']>, ParentType, ContextType, RequireFields<QueryWhiskyArgs, 'id'>>;
-  distiller?: Resolver<Maybe<ResolversTypes['Distiller']>, ParentType, ContextType, RequireFields<QueryDistillerArgs, 'id'>>;
+  producer?: Resolver<Maybe<ResolversTypes['Producer']>, ParentType, ContextType, RequireFields<QueryProducerArgs, 'id'>>;
   region?: Resolver<Maybe<ResolversTypes['Region']>, ParentType, ContextType, RequireFields<QueryRegionArgs, 'id'>>;
   country?: Resolver<Maybe<ResolversTypes['Country']>, ParentType, ContextType, RequireFields<QueryCountryArgs, 'id'>>;
   countryByAlias?: Resolver<Maybe<ResolversTypes['Country']>, ParentType, ContextType, RequireFields<QueryCountryByAliasArgs, 'alias'>>;
   regionByAlias?: Resolver<Maybe<ResolversTypes['Region']>, ParentType, ContextType, RequireFields<QueryRegionByAliasArgs, 'alias'>>;
   whiskys?: Resolver<Array<Maybe<ResolversTypes['Whisky']>>, ParentType, ContextType>;
-  distillers?: Resolver<Array<Maybe<ResolversTypes['Distiller']>>, ParentType, ContextType>;
+  producers?: Resolver<Array<Maybe<ResolversTypes['Producer']>>, ParentType, ContextType>;
   countries?: Resolver<Array<Maybe<ResolversTypes['Country']>>, ParentType, ContextType>;
   regions?: Resolver<Array<Maybe<ResolversTypes['Region']>>, ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = ./_types/Context.ts, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createDistiller?: Resolver<Maybe<ResolversTypes['Distiller']>, ParentType, ContextType, RequireFields<MutationCreateDistillerArgs, 'countryId' | 'name'>>;
-  createWhisky?: Resolver<Maybe<ResolversTypes['Whisky']>, ParentType, ContextType, RequireFields<MutationCreateWhiskyArgs, 'distillerId' | 'name' | 'blended'>>;
+  createProducer?: Resolver<Maybe<ResolversTypes['Producer']>, ParentType, ContextType, RequireFields<MutationCreateProducerArgs, 'countryId' | 'name'>>;
+  createWhisky?: Resolver<Maybe<ResolversTypes['Whisky']>, ParentType, ContextType, RequireFields<MutationCreateWhiskyArgs, 'producerId' | 'name' | 'blended'>>;
   createCountry?: Resolver<Maybe<ResolversTypes['Country']>, ParentType, ContextType, RequireFields<MutationCreateCountryArgs, 'alias' | 'name'>>;
   createRegion?: Resolver<Maybe<ResolversTypes['Region']>, ParentType, ContextType, RequireFields<MutationCreateRegionArgs, 'countryId' | 'alias' | 'name'>>;
 };
@@ -260,11 +260,11 @@ export type WhiskyResolvers<ContextType = ./_types/Context.ts, ParentType extend
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   blended?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   age?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  distiller?: Resolver<ResolversTypes['Distiller'], ParentType, ContextType>;
+  producer?: Resolver<ResolversTypes['Producer'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DistillerResolvers<ContextType = ./_types/Context.ts, ParentType extends ResolversParentTypes['Distiller'] = ResolversParentTypes['Distiller']> = {
+export type ProducerResolvers<ContextType = ./_types/Context.ts, ParentType extends ResolversParentTypes['Producer'] = ResolversParentTypes['Producer']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   region?: Resolver<Maybe<ResolversTypes['Region']>, ParentType, ContextType>;
@@ -279,7 +279,7 @@ export type RegionResolvers<ContextType = ./_types/Context.ts, ParentType extend
   shortName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   alias?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   country?: Resolver<ResolversTypes['Country'], ParentType, ContextType>;
-  distillers?: Resolver<Array<Maybe<ResolversTypes['Distiller']>>, ParentType, ContextType>;
+  producers?: Resolver<Array<Maybe<ResolversTypes['Producer']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -288,7 +288,7 @@ export type CountryResolvers<ContextType = ./_types/Context.ts, ParentType exten
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   shortName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   alias?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  distillers?: Resolver<Array<Maybe<ResolversTypes['Distiller']>>, ParentType, ContextType>;
+  producers?: Resolver<Array<Maybe<ResolversTypes['Producer']>>, ParentType, ContextType>;
   regions?: Resolver<Array<Maybe<ResolversTypes['Region']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -297,7 +297,7 @@ export type Resolvers<ContextType = ./_types/Context.ts> = {
   Query?: QueryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Whisky?: WhiskyResolvers<ContextType>;
-  Distiller?: DistillerResolvers<ContextType>;
+  Producer?: ProducerResolvers<ContextType>;
   Region?: RegionResolvers<ContextType>;
   Country?: CountryResolvers<ContextType>;
 };

@@ -117,7 +117,12 @@ const Query = {
         regions: true,
         distillers: {
           include: {
-            whiskys: true,
+            whiskys: {
+              include: {
+                distiller: true,
+              },
+            },
+            region: true,
           },
         },
       },
@@ -161,8 +166,8 @@ const Query = {
     { alias }: QueryRegionByAliasArgs,
     { db }: Context
   ): Promise<any> => {
-    console.log('SEARCHING FOR COUNTRY BY ALIAS:', alias);
-    // WTF: findFirst is not case sensitive (according to Prisma slack)
+    console.log('~~~SEARCHING FOR REGION BY ALIAS:', alias);
+
     const foundRegion = await db.region.findFirst({
       where: {
         alias: {
@@ -172,9 +177,14 @@ const Query = {
       },
       include: {
         country: true,
+        distillers: {
+          include: {
+            whiskys: true,
+          },
+        },
       },
     });
-    console.log('FOUND COUNTRY:', foundRegion);
+    console.log('FOUND REGION:', foundRegion);
     return foundRegion;
   },
   regions: async (

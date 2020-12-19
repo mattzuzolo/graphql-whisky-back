@@ -179,7 +179,11 @@ const Query = {
         country: true,
         distillers: {
           include: {
-            whiskys: true,
+            whiskys: {
+              include: {
+                distiller: true,
+              },
+            },
           },
         },
       },

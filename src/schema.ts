@@ -18,6 +18,7 @@ const typeDefs = gql`
     producers: [Producer]!
     countries: [Country]!
     regions: [Region]!
+    styles: [Style]!
   }
 
   type Mutation {
@@ -31,6 +32,7 @@ const typeDefs = gql`
       name: String!
       blended: Boolean!
       age: Int
+      styleId: String
     ): Whisky
 
     createCountry(alias: String!, name: String!, shortName: String): Country
@@ -40,6 +42,13 @@ const typeDefs = gql`
       name: String!
       shortName: String
     ): Region
+
+    createStyle(
+      name: String!
+      shortName: String!
+      countryId: String
+      regionId: String
+    ): Style
   }
 
   type Whisky {
@@ -49,9 +58,24 @@ const typeDefs = gql`
     blended: Boolean!
     age: Int
 
-    #Relationships
+    # Relationships
     # Belongs to
     producer: Producer!
+    style: Style!
+  }
+
+  type Style {
+    id: ID!
+    name: String!
+    shortName: String!
+
+    # Relationships
+    # Belongs to
+    region: Region
+    country: Country
+
+    # Has many
+    whiskys: [Whisky]!
   }
 
   type Producer {
@@ -80,6 +104,7 @@ const typeDefs = gql`
 
     # Has many
     producers: [Producer]!
+    style: [Style]!
   }
 
   type Country {
@@ -93,6 +118,7 @@ const typeDefs = gql`
     # Has many
     producers: [Producer]!
     regions: [Region]!
+    style: [Style]!
   }
 `;
 

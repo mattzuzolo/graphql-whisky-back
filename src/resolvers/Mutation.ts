@@ -4,6 +4,7 @@ import {
   MutationCreateCountryArgs,
   MutationCreateProducerArgs,
   MutationCreateRegionArgs,
+  MutationCreateStyleArgs,
   MutationCreateWhiskyArgs,
 } from '../../_types/generated/graphql';
 3;
@@ -51,13 +52,28 @@ const Mutation = {
   },
   createWhisky: async (
     _parent: void,
-    { producerId, name, blended, age }: MutationCreateWhiskyArgs,
+    { producerId, name, blended, age, styleId }: MutationCreateWhiskyArgs,
     { db }: Context
   ): Promise<any> => {
     console.log(
       `ATTEMPING TO CREATE WHISKY ${name} that belongs to Producer ID: ${producerId}`
     );
-    const whisky = await db.whisky.create({
+    let whisky;
+    if (!styleId) {
+      whisky = await db.whisky.create({
+        data: {
+          name,
+          blended,
+          age,
+          producer: {
+            connect: {
+              id: producerId,
+            },
+          },
+        },
+      });
+    }
+    whisky = await db.whisky.create({
       data: {
         name,
         blended,
@@ -65,6 +81,11 @@ const Mutation = {
         producer: {
           connect: {
             id: producerId,
+          },
+        },
+        style: {
+          connect: {
+            id: styleId as string | undefined, // TODO: find a better way to handle null here,
           },
         },
       },
@@ -108,6 +129,26 @@ const Mutation = {
     });
     console.log('CREATED WHISKY:', country);
     return country;
+  },
+  createStyle: async (
+    _parent: void,
+    { name, shortName, countryId }: MutationCreateStyleArgs,
+    { db }: Context
+  ): Promise<any> => {
+    console.log(`ATTEMPING TO CREATE STYLE ${name}`);
+    const style = await db.style.create({
+      data: {
+        name,
+        shortName: shortName ? shortName : name,
+        country: {
+          connect: {
+            id: countryId as string | undefined, // TODO: find a better way to handle null here
+          },
+        },
+      },
+    });
+    console.log('CREATED style:', style);
+    return style;
   },
 };
 

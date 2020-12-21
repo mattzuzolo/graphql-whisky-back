@@ -1,0 +1,39 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "DeleteDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Style",
+          "field": "name"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "DeleteDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Style",
+          "field": "shortName"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Style",
+      "field": "countryId",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Style",
+      "field": "country",
+      "arity": "Optional"
+    }
+  ]
+}

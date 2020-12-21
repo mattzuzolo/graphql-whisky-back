@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -30,15 +30,15 @@ model Whisky { // The Balvenie 12, Lagavulin 16, Angel's Envy
 
 model Style {
   id String @id @default(uuid())
-  name String // "Single malt scotch whisky", "Kentucky straight bourbon whiskey"
-  shortName String // "Scotch whisky", "Bourbon whiskey" 
+  name String @default("Single malt scotch whisky") // "Single malt scotch whisky", "Kentucky straight bourbon whiskey"
+  shortName String @default("Scotch whisky") // "Scotch whisky", "Bourbon whiskey" 
   
   // Relationship
   regionId  String?
   region    Region?  @relation(fields: [regionId], references: [id])
 
-  countryId  String?
-  country    Country?  @relation(fields: [countryId], references: [id])
+  countryId  String
+  country    Country  @relation(fields: [countryId], references: [id])
 }
 
 model Producer { // The Balvenie, Lagavulin, Buffalo Trace

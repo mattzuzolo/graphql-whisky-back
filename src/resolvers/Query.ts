@@ -55,6 +55,7 @@ const Query = {
     const foundWhisky = await db.whisky.findOne({
       where: { id },
       include: {
+        style: true,
         producer: {
           // Get 3 whiskys to recommend user more
           include: {
@@ -79,6 +80,7 @@ const Query = {
     const whiskys = await db.whisky.findMany({
       include: {
         producer: true,
+        style: true, // CONNECT ME TO DATA SO I CAN WORK WITH WHIKSYS
       },
     });
     console.log('FOUND WHISKYS:', whiskys);
@@ -211,6 +213,21 @@ const Query = {
     });
     console.log('FOUND REGIONS:', regions);
     return regions;
+  },
+  styles: async (
+    _parent: void,
+    _args: void,
+    { db }: Context
+  ): Promise<any[]> => {
+    console.log('SEARCHING FOR ALL STYLES');
+    const styles = await db.style.findMany({
+      include: {
+        Whisky: true,
+        country: true,
+      },
+    });
+    console.log('FOUND STYLES:', styles[0].Whisky);
+    return styles;
   },
 };
 

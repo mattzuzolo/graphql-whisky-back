@@ -7,3 +7,4 @@ temp/
 
 .env
 archive.ts
+.DS_Store

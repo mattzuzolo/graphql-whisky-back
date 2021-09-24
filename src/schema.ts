@@ -54,6 +54,7 @@ const typeDefs = gql`
   type Whisky {
     id: ID!
 
+    alias: String!
     name: String!
     blended: Boolean!
     age: Int
@@ -81,6 +82,7 @@ const typeDefs = gql`
   type Producer {
     id: ID!
     name: String!
+    alias: String!
 
     # Relationships
     # Belongs to

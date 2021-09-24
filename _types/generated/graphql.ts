@@ -120,6 +120,7 @@ export type Style = {
   id: Scalars['ID'];
   name: Scalars['String'];
   shortName: Scalars['String'];
+  alias: Scalars['String'];
   region?: Maybe<Region>;
   country?: Maybe<Country>;
   whiskys: Array<Maybe<Whisky>>;
@@ -129,6 +130,7 @@ export type Producer = {
   __typename?: 'Producer';
   id: Scalars['ID'];
   name: Scalars['String'];
+  alias: Scalars['String'];
   region?: Maybe<Region>;
   country: Country;
   whiskys?: Maybe<Array<Maybe<Whisky>>>;
@@ -298,6 +300,7 @@ export type StyleResolvers<ContextType = ./_types/Context.ts, ParentType extends
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   shortName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  alias?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   region?: Resolver<Maybe<ResolversTypes['Region']>, ParentType, ContextType>;
   country?: Resolver<Maybe<ResolversTypes['Country']>, ParentType, ContextType>;
   whiskys?: Resolver<Array<Maybe<ResolversTypes['Whisky']>>, ParentType, ContextType>;
@@ -307,6 +310,7 @@ export type StyleResolvers<ContextType = ./_types/Context.ts, ParentType extends
 export type ProducerResolvers<ContextType = ./_types/Context.ts, ParentType extends ResolversParentTypes['Producer'] = ResolversParentTypes['Producer']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  alias?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   region?: Resolver<Maybe<ResolversTypes['Region']>, ParentType, ContextType>;
   country?: Resolver<ResolversTypes['Country'], ParentType, ContextType>;
   whiskys?: Resolver<Maybe<Array<Maybe<ResolversTypes['Whisky']>>>, ParentType, ContextType>;

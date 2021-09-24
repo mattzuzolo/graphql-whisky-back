@@ -10,95 +10,99 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Whisky { // The Balvenie 12, Lagavulin 16, Angel's Envy
-  id String @id @default(uuid())
-  createdAt  DateTime  @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  
-  name String @unique
+model Whisky {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  alias   String? @unique
+  name    String  @unique
   blended Boolean
-  age Int? // Maybe default to zero?
-  
-  abv Int? // we might not have this information
+  age     Int? // Maybe default to zero?
+  abv     Int? // we might not have this information
 
   // Relationship
-  producerId  String
-  producer    Producer  @relation(fields: [producerId], references: [id])
-  
-  styleId  String?
-  style    Style?  @relation(fields: [styleId], references: [id])
+  producerId String
+  producer   Producer @relation(fields: [producerId], references: [id])
+
+  styleId String?
+  style   Style?  @relation(fields: [styleId], references: [id])
 
   // Unique constraints
   @@unique([name, producerId])
 }
 
 model Style {
-  id String @id @default(uuid())
-  createdAt  DateTime  @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
-  name String @unique // "Single malt scotch whisky", "Kentucky straight bourbon whiskey"
+  name      String @unique // "Single malt scotch whisky", "Kentucky straight bourbon whiskey"
   shortName String // "Scotch whisky", "Bourbon whiskey"
-  
-  // Relationship
-  regionId  String?
-  region    Region?  @relation(fields: [regionId], references: [id])
 
-  countryId  String?
-  country    Country?  @relation(fields: [countryId], references: [id])
+  // Relationship
+  regionId String?
+  region   Region? @relation(fields: [regionId], references: [id])
+
+  countryId String?
+  country   Country? @relation(fields: [countryId], references: [id])
+  Whisky    Whisky[]
 }
 
-model Producer { // The Balvenie, Lagavulin, Buffalo Trace
-  id String @id @default(uuid())
-  createdAt  DateTime  @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+model Producer {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
-  name String @unique
-  
+  alias String? @unique
+  name  String  @unique
+
   // Relationship
   whiskys Whisky[]
 
-  countryId  String
-  country    Country  @relation(fields: [countryId], references: [id])
+  countryId String
+  country   Country @relation(fields: [countryId], references: [id])
 
-  regionId  String?
-  region    Region?  @relation(fields: [regionId], references: [id])
+  regionId String?
+  region   Region? @relation(fields: [regionId], references: [id])
 
   @@unique([name, regionId])
   @@unique([name, countryId])
 }
 
-model Region { // Islay, Kentucky
-  id String @id @default(uuid())
-  createdAt  DateTime  @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+model Region {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
-  name String @unique
+  name      String  @unique
   shortName String? @unique // Optional because we assign "name" to "shortName" if none is provided
-  alias String @unique // for urls
+  alias     String  @unique // for urls
 
 
   // Relationship
   producers Producer[]
-  
+
   // THIS IS HOW YOU GET THE INCLUDE FIELD WHEN "EAGAR LOADING"
   // https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/field-selection#include
-  countryId  String
-  country    Country  @relation(fields: [countryId], references: [id])
+  countryId String
+  country   Country @relation(fields: [countryId], references: [id])
 
+  Style Style[]
   @@unique([name, countryId])
 }
 
-model Country { // Scotland, Ireland, USA
-  id String @id @default(uuid())
-  createdAt  DateTime  @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+model Country {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
-  name String @unique
+  name      String  @unique
   shortName String? @unique
-  alias String @unique // for urls
+  alias     String  @unique // for urls
 
   // Relationship
   producers Producer[]
-  regions Region[]
+  regions   Region[]
+  Style     Style[]
 }

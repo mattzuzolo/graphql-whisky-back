@@ -1,3 +1,4 @@
+console.log('\nSTARTING...\n');
 import * as dotenv from 'dotenv';
 dotenv.config();
 import { ApolloServer } from 'apollo-server';

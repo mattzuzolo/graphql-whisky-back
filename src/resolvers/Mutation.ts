@@ -1,4 +1,5 @@
 import Context from '../../_types/Context';
+import slugify from 'slugify';
 
 import {
   MutationCreateCountryArgs,
@@ -7,7 +8,13 @@ import {
   MutationCreateStyleArgs,
   MutationCreateWhiskyArgs,
 } from '../../_types/generated/graphql';
-3;
+
+const createAlias = (name: string): string => {
+  return slugify(name, {
+    lower: true,
+  });
+};
+
 const Mutation = {
   createProducer: async (
     _parent: void,
@@ -22,6 +29,7 @@ const Mutation = {
       producer = await db.producer.create({
         data: {
           name,
+          alias: createAlias(name),
           country: {
             connect: {
               id: countryId,
@@ -33,6 +41,7 @@ const Mutation = {
       producer = await db.producer.create({
         data: {
           name,
+          alias: createAlias(name),
           country: {
             connect: {
               id: countryId,
@@ -63,6 +72,7 @@ const Mutation = {
       whisky = await db.whisky.create({
         data: {
           name,
+          alias: createAlias(name),
           blended,
           age,
           producer: {
@@ -76,6 +86,7 @@ const Mutation = {
     whisky = await db.whisky.create({
       data: {
         name,
+        alias: createAlias(name),
         blended,
         age,
         producer: {
